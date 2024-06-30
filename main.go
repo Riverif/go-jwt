@@ -1,7 +1,24 @@
 package main
 
-import "fmt"
+import (
+	"go-jwt/initializers"
+
+	"github.com/gin-gonic/gin"
+)
+
+func init() {
+	initializers.LoadEnvVariables()
+	initializers.ConnectToDB()
+	initializers.SyncDatabase()
+}
 
 func main() {
-	fmt.Println("Hello World 123")
+	r := gin.Default()
+
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",		
+		})
+	})
+	r.Run()
 }
